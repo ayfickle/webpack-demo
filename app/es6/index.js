@@ -1,12 +1,14 @@
 import './main.css';
 import sub from './sub.js';
-import $ from 'jquery';
+// import $ from 'jquery';
+import './plugin.js';
 import moment from 'moment';
 
 let app = document.createElement('div');
 const myPromise = Promise.resolve(42);
 myPromise.then((num) => {
 	$('body').append('<p>promise result is ' + num + ' now is ' + moment().format() +'</p>');
+	$('p').greenify();
 });
 app.innerHTML = '<h1>Hello World</h1>';
 document.body.appendChild(app);
