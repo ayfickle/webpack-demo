@@ -11,7 +11,7 @@ var ROOT_PATH = path.resolve(__dirname);
  * compile with babel, babel-preset-es2015
  */
 var APP_PATH = path.resolve(ROOT_PATH, 'app/es6');
-var BUILD_PATH = path.resolve(ROOT_PATH, 'build');
+var BUILD_PATH = path.resolve(ROOT_PATH, 'build/test');
 
 module.exports = {
 	//项目的文件夹
@@ -29,7 +29,7 @@ module.exports = {
 	},
 
 	// 出错以后就会采用source-map的形式直接显示你出错代码的位置
-	// devtool: 'eval-source-map',
+	devtool: 'eval-source-map',
 
 	// loaders not allowed to omit the '-loader' suffix
 	module: {

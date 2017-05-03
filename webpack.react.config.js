@@ -8,22 +8,33 @@ var ROOT_PATH = path.resolve(__dirname);
  * webpack for es6
  * compile with babel, babel-preset-es2015
  */
-var APP_PATH = path.resolve(ROOT_PATH, 'app/es6');
-var BUILD_PATH = path.resolve(ROOT_PATH, 'build');
-var TEM_PATH = path.resolve(ROOT_PATH, 'app/es6/templates');
+var APP_PATH = path.resolve(ROOT_PATH, 'app/react-sreach-webpack');
+var BUILD_PATH = path.resolve(ROOT_PATH, 'build/react');
 
 module.exports = {
 	//项目的文件夹
 	entry: {
-		app: path.resolve(APP_PATH, 'index.js'),
-		mobile: path.resolve(APP_PATH, 'mobile.js'),
-		//添加要打包在vendors里面的库
-		vendors: ['jquery', 'moment']
+		app: path.resolve(APP_PATH, 'index.jsx')
 	},
 	//输出的文件名 合并以后的js会命名为bundle.js
 	output: {
 		path: BUILD_PATH,
-		filename: '[name].[hash].js'
+		filename: 'bundle.js'
+	},
+
+	devtool: 'eval-source-map',
+	// 构建速度更快，但是不利于调试，推荐在大型项目考虑da时间成本是使用
+	// devtool: 'cheap-module-eval-source-map',
+
+	devServer: {
+		historyApiFallback: true,
+		hot: true,
+		inline: true
+	},
+
+	// 把jsx扩展名添加进去，就可以在js中import加载jsx这种扩展名的脚本
+	resolve: {
+		extensions: ['.js', '.jsx']
 	},
 
 	// loaders not allowed to omit the '-loader' suffix
@@ -35,6 +46,10 @@ module.exports = {
 				include: APP_PATH
 			},
 			{
+				test: /\.scss$/,
+				loaders: ['style-loader', 'css-loader', 'sass-loader']
+			},
+			{
 				test: /\.(png|jpg)$/,
 				loader: 'url-loader?limit=40000'
 			},
@@ -43,7 +58,7 @@ module.exports = {
 				loader: 'babel-loader',
 				include: APP_PATH,
 				query: {
-					presets: ['es2015']
+					presets: ['es2015', 'react']
 				}
 			}
 		]
@@ -51,25 +66,8 @@ module.exports = {
 
 	//添加我们的插件 会自动生成一个html文件
 	plugins: [
-		// 这个使用uglifyJs压缩你的js代码
-		new webpack.optimize.UglifyJsPlugin({minimize: true}),
-		// 把入口文件里面的数组打包成verdors.js
-		new webpack.optimize.CommonsChunkPlugin({name: 'vendors', filename: 'vendors.js'}),
 		new HtmlwebpackPlugin({
-			title: 'Hello World App',
-			template: path.resolve(TEM_PATH, 'index.html'),
-			filename: 'index.html',
-			//chunks这个参数告诉插件要引用entry里面的哪几个入口
-			chunks: ['app', 'vendors'],
-			//要把script插入到标签里
-			inject: 'body'
-		}),
-		new HtmlwebpackPlugin({
-			title: 'Hello Mobile App',
-			template: path.resolve(TEM_PATH, 'mobile.html'),
-			filename: 'mobile.html',
-			chunks: ['app', 'vendors'],
-			inject: 'body'
+			title: 'Hello Mobile App'
 		}),
 	]
 };

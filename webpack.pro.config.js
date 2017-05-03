@@ -9,7 +9,7 @@ var ROOT_PATH = path.resolve(__dirname);
  * compile with babel, babel-preset-es2015
  */
 var APP_PATH = path.resolve(ROOT_PATH, 'app/es6');
-var BUILD_PATH = path.resolve(ROOT_PATH, 'build');
+var BUILD_PATH = path.resolve(ROOT_PATH, 'build/pro');
 var TEM_PATH = path.resolve(ROOT_PATH, 'app/es6/templates');
 
 module.exports = {
